@@ -1,13 +1,15 @@
-﻿using Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
-        public void CreateUser(User user);
-        public User UpdateUser(string username);
-        public User GetUsers();
-        public User GetUserByUserName(string username);
+        public void CreateUser(IdentityUser user);
+        public void UpdateUser(string username, IdentityUser identityUser);
+        public List<IdentityUser> GetUsers();
+        public Task<IdentityUser> GetUserByUserName(string username);
         public void DeleteUserByUserName(string username);
     }
 }

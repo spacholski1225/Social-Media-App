@@ -1,5 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Config;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,32 +13,52 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public UserRepository()
-        {
+        private readonly DatabaseConfig _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<UserRepository> _logger;
 
-        }
-        public void CreateUser(User user)
+        public UserRepository(DatabaseConfig context, UserManager<IdentityUser> userManager, ILogger<UserRepository> logger)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _userManager = userManager;
+            _logger = logger;
         }
-
-        public User UpdateUser(string username)
+        public async void CreateUser(IdentityUser user)
         {
-            throw new NotImplementedException();
-        }
-
-        public User GetUsers()
-        {
-            throw new NotImplementedException();
-        }
-        public User GetUserByUserName(string username)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                await _userManager.CreateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error occurs during creating new user error: " + ex.Message);
+            }
         }
 
-        public void DeleteUserByUserName(string username)
+        public async void UpdateUser(string username, IdentityUser identityUser)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+            {
+                user.UserName = identityUser.UserName; //change to automapper
+            }
+            await _userManager.UpdateAsync(user);
+        }
+
+        public List<IdentityUser> GetUsers()
+        {
+            return _userManager.Users.ToList();
+        }
+        public async Task<IdentityUser> GetUserByUserName(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
+
+        public async void DeleteUserByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user != null)
+                await _userManager.DeleteAsync(user);
         }
 
     }
