@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
 
 namespace WebAPI
 {
@@ -36,6 +38,7 @@ namespace WebAPI
             opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), b => b.MigrationsAssembly("WebAPI")));
             services.AddIdentity<IdentityUser, IdentityRole>() // change to opt.SignIn.RequireConfirmedAccount = true
                 .AddEntityFrameworkStores<DatabaseConfig>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });

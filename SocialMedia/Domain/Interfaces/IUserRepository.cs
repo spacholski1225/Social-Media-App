@@ -6,7 +6,7 @@ namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
-        public void CreateUser(IdentityUser user);
+        public Task CreateUser(IdentityUser user, string password);
         public void UpdateUser(string username, IdentityUser identityUser);
         public List<IdentityUser> GetUsers();
         public Task<IdentityUser> GetUserByUserName(string username);

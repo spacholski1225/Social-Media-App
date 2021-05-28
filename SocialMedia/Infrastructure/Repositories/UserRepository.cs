@@ -23,11 +23,11 @@ namespace Infrastructure.Repositories
             _userManager = userManager;
             _logger = logger;
         }
-        public async void CreateUser(IdentityUser user)
+        public async Task CreateUser(IdentityUser user, string password)
         {
             try
             {
-                await _userManager.CreateAsync(user);
+                await _userManager.CreateAsync(user, password);
             }
             catch (Exception ex)
             {
