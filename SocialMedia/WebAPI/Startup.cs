@@ -1,5 +1,7 @@
+using Infrastructure.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebAPI
 {
@@ -28,6 +32,10 @@ namespace WebAPI
         {
 
             services.AddControllers();
+            services.AddDbContext<DatabaseConfig>(opt =>
+            opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), b => b.MigrationsAssembly("WebAPI")));
+            services.AddIdentity<IdentityUser, IdentityRole>() // change to opt.SignIn.RequireConfirmedAccount = true
+                .AddEntityFrameworkStores<DatabaseConfig>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
