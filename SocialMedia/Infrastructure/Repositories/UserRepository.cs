@@ -51,7 +51,15 @@ namespace Infrastructure.Repositories
         }
         public async Task<IdentityUser> GetUserByUserName(string username)
         {
-            return await _userManager.FindByNameAsync(username);
+            try
+            {
+                return await _userManager.FindByNameAsync(username);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error occurs within finding user by name " + ex.Message);
+                return null;
+            }
         }
 
         public async void DeleteUserByUserName(string username)

@@ -20,38 +20,45 @@ namespace WebAPI.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public OkObjectResult Get()
+        public OkObjectResult GetUsers()
         {
             var users = _userRepository.GetUsers();
             return Ok(users);
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUserByUserName(string username)
         {
-            return "value";
+            var user = await _userRepository.GetUserByUserName(username);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public OkResult Post([FromBody] IdentityUser identityUser)
+        public async Task<IActionResult> CreateUser([FromBody] IdentityUser identityUser, string password)
         {
-            _userRepository.CreateUser(identityUser, "zaq1@WSX");
+            await _userRepository.CreateUser(identityUser, password);
             return Ok();
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{username}")]
+        public IActionResult UpdateUser([FromBody] IdentityUser identityUser, string username)
         {
-
+            _userRepository.UpdateUser(username, identityUser);
+            return Ok();
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{username}")]
+        public IActionResult DeleteUser(string username)
         {
+             _userRepository.DeleteUserByUserName(username);
+            return Ok();
         }
+        
     }
 }
