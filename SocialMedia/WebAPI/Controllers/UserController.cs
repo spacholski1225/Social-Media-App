@@ -46,19 +46,18 @@ namespace WebAPI.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{username}")]
-        public IActionResult UpdateUser([FromBody] IdentityUser identityUser, string username)
+        public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
         {
-            _userRepository.UpdateUser(username, identityUser);
+            await _userRepository.UpdateUser(username, identityUser);
             return Ok();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        public async Task<IActionResult> DeleteUser(string username)
         {
-             _userRepository.DeleteUserByUserName(username);
+             await _userRepository.DeleteUserByUserName(username);
             return Ok();
         }
-        
     }
 }

@@ -35,12 +35,13 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async void UpdateUser(string username, IdentityUser identityUser)
+        public async Task UpdateUser(string username, IdentityUser identityUser)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
             {
                 user.UserName = identityUser.UserName; //change to automapper
+                user.Email = identityUser.Email;
             }
             await _userManager.UpdateAsync(user);
         }
@@ -62,7 +63,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async void DeleteUserByUserName(string username)
+        public async Task DeleteUserByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
