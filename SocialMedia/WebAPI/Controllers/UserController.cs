@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] IdentityUser identityUser, string password)
         {
-            await _userRepository.CreateUser(identityUser, password);
+            await _userRepository.CreateUserAsync(identityUser, password);
             return Ok();
         }
 
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         [HttpPut("{username}")]
         public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
         {
-            await _userRepository.UpdateUser(username, identityUser);
+            await _userRepository.UpdateUserAsync(username, identityUser);
             return Ok();
         }
 

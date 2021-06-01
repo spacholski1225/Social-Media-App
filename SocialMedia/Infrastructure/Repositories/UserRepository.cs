@@ -13,17 +13,15 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DatabaseConfig _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(DatabaseConfig context, UserManager<IdentityUser> userManager, ILogger<UserRepository> logger)
+        public UserRepository(UserManager<IdentityUser> userManager, ILogger<UserRepository> logger)
         {
-            _context = context;
             _userManager = userManager;
             _logger = logger;
         }
-        public async Task CreateUser(IdentityUser user, string password)
+        public async Task CreateUserAsync(IdentityUser user, string password)
         {
             try
             {
@@ -35,7 +33,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task UpdateUser(string username, IdentityUser identityUser)
+        public async Task UpdateUserAsync(string username, IdentityUser identityUser)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
