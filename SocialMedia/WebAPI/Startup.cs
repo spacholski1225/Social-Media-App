@@ -40,6 +40,7 @@ namespace WebAPI
             services.AddIdentity<IdentityUser, IdentityRole>() // change to opt.SignIn.RequireConfirmedAccount = true
                 .AddEntityFrameworkStores<DatabaseConfig>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<AutoMapperConfig>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });

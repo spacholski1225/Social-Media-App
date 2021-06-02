@@ -15,11 +15,13 @@ namespace Infrastructure.Repositories
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<UserRepository> _logger;
+        private readonly AutoMapperConfig _mapper;
 
-        public UserRepository(UserManager<IdentityUser> userManager, ILogger<UserRepository> logger)
+        public UserRepository(UserManager<IdentityUser> userManager, ILogger<UserRepository> logger, AutoMapperConfig mapper)
         {
             _userManager = userManager;
             _logger = logger;
+            _mapper = mapper;
         }
         public async Task CreateUserAsync(IdentityUser user, string password)
         {
@@ -38,8 +40,7 @@ namespace Infrastructure.Repositories
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
             {
-                user.UserName = identityUser.UserName; //change to automapper
-                user.Email = identityUser.Email;
+                _mapper.MapToIdentityUser(user);
             }
             await _userManager.UpdateAsync(user);
         }
