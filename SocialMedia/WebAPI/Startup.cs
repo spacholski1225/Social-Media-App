@@ -18,6 +18,7 @@ using Domain.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Infrastructure.Services;
 
 namespace WebAPI
 {
@@ -41,6 +42,7 @@ namespace WebAPI
                 .AddEntityFrameworkStores<DatabaseConfig>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<AutoMapperConfig>();
+            services.AddScoped<IIdentityService, IdentityService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
