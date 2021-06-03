@@ -6,7 +6,6 @@ namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
-        public Task CreateUserAsync(IdentityUser user, string password);
         public Task UpdateUserAsync(string username, IdentityUser identityUser);
         public List<IdentityUser> GetUsers();
         public Task<IdentityUser> GetUserByUserName(string username);

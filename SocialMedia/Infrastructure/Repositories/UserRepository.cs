@@ -23,18 +23,7 @@ namespace Infrastructure.Repositories
             _logger = logger;
             _mapper = mapper;
         }
-        public async Task CreateUserAsync(IdentityUser user, string password)
-        {
-            try
-            {
-                await _userManager.CreateAsync(user, password);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error occurs during creating new user error: " + ex.Message);
-            }
-        }
-
+       
         public async Task UpdateUserAsync(string username, IdentityUser identityUser)
         {
             var user = await _userManager.FindByNameAsync(username);

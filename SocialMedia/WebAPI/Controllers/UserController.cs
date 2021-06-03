@@ -39,14 +39,6 @@ namespace WebAPI.Controllers
             return Ok(user);
         }
 
-        // POST api/<UserController>
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] IdentityUser identityUser, string password)
-        {
-            await _userRepository.CreateUserAsync(identityUser, password);
-            return Ok();
-        }
-
         // PUT api/<UserController>/5
         [HttpPut("{username}")]
         public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
