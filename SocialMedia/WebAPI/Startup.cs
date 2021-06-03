@@ -42,14 +42,13 @@ namespace WebAPI
             services.AddDbContext<DatabaseConfig>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("SqlConnection"), b => b.MigrationsAssembly("WebAPI")));
 
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<AutoMapperConfig>();
-
             var jwtSettings = new JwtSettings();
             Configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
+            
             services.AddScoped<IIdentityService, IdentityService>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -66,13 +65,14 @@ namespace WebAPI
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        RequireExpirationTime = true,
-                        ValidateLifetime = true
+                        ValidateLifetime = true,
+                        RequireExpirationTime = false
                     };
                 });
-            services.AddIdentity<IdentityUser, IdentityRole>(opt => opt.SignIn.RequireConfirmedAccount = true)
+            
+            services.AddDefaultIdentity<IdentityUser>(opt => opt.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DatabaseConfig>();
-
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });

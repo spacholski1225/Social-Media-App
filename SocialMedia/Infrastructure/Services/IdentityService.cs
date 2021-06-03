@@ -46,27 +46,65 @@ namespace Infrastructure.Services
                 };
             }
 
+            return new AuthenticationResult
+            {
+                Success = true,
+                Token = GenerateJwtToken(newUser)
+            };
+        }
+        public async Task<AuthenticationResult> LoginAsync(string email, string password)
+        {
+            var existingUser = await _userManager.FindByEmailAsync(email);
+            if (existingUser == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Invalid authentication request" }
+                };
+            }
+
+            var isCorrect = await _userManager.CheckPasswordAsync(existingUser, password);
+            if (isCorrect)
+            {
+                var jwtToken = GenerateJwtToken(existingUser);
+                return new AuthenticationResult
+                {
+                    Success = true,
+                    Token = jwtToken
+                };
+            }
+            else
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Invalid authentication request" }
+                };
+            }
+
+        }
+        private string GenerateJwtToken(IdentityUser user)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
-                    new Claim("id", newUser.Id)
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("id", user.Id)
 
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new AuthenticationResult
-            {
-                Success = true,
-                Token = tokenHandler.WriteToken(token)
             };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+
+            return jwtToken;
+        }
     }
+
 }
-}
+

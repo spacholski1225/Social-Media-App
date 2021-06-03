@@ -21,6 +21,7 @@ namespace WebAPI.Controllers
             _identityService = identityService;
         }
         [HttpPost]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
@@ -35,6 +36,31 @@ namespace WebAPI.Controllers
             {
                 Token = authResponse.Token
             });
+        }
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
+                if (!authResponse.Success)
+                {
+                    return BadRequest(new AuthFailedResponse
+                    {
+                        Errors = authResponse.Errors
+                    });
+                }
+                return Ok(new AuthSuccessResponse
+                {
+                    Token = authResponse.Token
+                });
+            }
+            return BadRequest(new AuthFailedResponse
+            {
+                Errors = new[] { "Invalid payload" }
+            });
+
         }
     }
 }
