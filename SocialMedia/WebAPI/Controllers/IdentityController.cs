@@ -1,16 +1,12 @@
 ﻿using Application.Requests;
 using Application.Responses;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Routes;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class IdentityController : ControllerBase
     {
@@ -21,7 +17,7 @@ namespace WebAPI.Controllers
             _identityService = identityService;
         }
         [HttpPost]
-        [Route("register")]
+        [Route(ApiRoutes.IdentityRoutes.Register)]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
@@ -38,7 +34,7 @@ namespace WebAPI.Controllers
             });
         }
         [HttpPost]
-        [Route("login")]
+        [Route(ApiRoutes.IdentityRoutes.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
             if (ModelState.IsValid)

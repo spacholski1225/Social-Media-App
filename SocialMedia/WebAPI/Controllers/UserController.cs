@@ -3,15 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Routes;
 
 namespace WebAPI.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -23,6 +20,7 @@ namespace WebAPI.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
+        [Route(ApiRoutes.UserRoutes.GetAll)]
         public OkObjectResult GetUsers()
         {
             var users = _userRepository.GetUsers();
@@ -30,7 +28,8 @@ namespace WebAPI.Controllers
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{username}")]
+        [HttpGet]
+        [Route(ApiRoutes.UserRoutes.GetByUserName)]
         public async Task<IActionResult> GetUserByUserName(string username)
         {
             var user = await _userRepository.GetUserByUserName(username);
@@ -40,7 +39,8 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{username}")]
+        [HttpPut]
+        [Route(ApiRoutes.UserRoutes.UpdateUser)]
         public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
         {
             await _userRepository.UpdateUserAsync(username, identityUser);
@@ -48,7 +48,8 @@ namespace WebAPI.Controllers
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{username}")]
+        [HttpDelete]
+        [Route(ApiRoutes.UserRoutes.DeleteUser)]
         public async Task<IActionResult> DeleteUser(string username)
         {
              await _userRepository.DeleteUserByUserName(username);
