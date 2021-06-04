@@ -14,18 +14,11 @@ namespace Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public void DeletePost(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Post GetPost(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Post> GetPosts()
+        {
+            throw new NotImplementedException();
+        }
+        public Post GetPost(string id)
         {
             throw new NotImplementedException();
         }
@@ -34,5 +27,11 @@ namespace Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+        public void DeletePost(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }
