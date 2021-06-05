@@ -22,6 +22,8 @@
             public const string GetPostById = Base + "/posts/{postId}";
             public const string GetPosts = Base + "/posts";
             public const string CreatePost = Base + "/posts";
+            public const string UpdatePost = Base + "/posts/{postId}";
+            public const string DeletePost = Base + "/posts/{postId}";
         }
     }
 }

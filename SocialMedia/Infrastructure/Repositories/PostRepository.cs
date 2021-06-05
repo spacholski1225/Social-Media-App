@@ -39,16 +39,44 @@ namespace Infrastructure.Repositories
         public async Task<Post> GetPostAsync(Guid id)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(s => s.Id == id);
+            if(post == null)
+            {
+                return null;
+            }
             return post;
         }
 
-        public Post UpdatePost(string id)
+        public async Task<bool> UpdatePostAsync(Post postToUpdate)
         {
-            throw new NotImplementedException();
+            var exist = await GetPostAsync(postToUpdate.Id);
+            if(exist == null)
+            {
+                return false;
+            }
+            exist.Name = postToUpdate.Name; // refactor it and add automapper
+            try
+            {
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-        public bool DeletePost(string id)
+        public async Task<bool> DeletePostAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var post = await _context.Posts.FirstOrDefaultAsync(s => s.Id == id);
+            try
+            {
+                _context.Posts.Remove(post);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

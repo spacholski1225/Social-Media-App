@@ -10,7 +10,7 @@ namespace Domain.Interfaces
         public bool CreatePost(Post post);
         public Task<List<Post>> GetPostsAsync();
         public Task<Post> GetPostAsync(Guid id);
-        public Post UpdatePost(string id);
-        public bool DeletePost(string id);
+        public Task<bool> UpdatePostAsync(Post postToUpdate);
+        public Task<bool> DeletePostAsync(Guid id);
     }
 }
