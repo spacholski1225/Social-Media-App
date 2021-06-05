@@ -1,5 +1,8 @@
-﻿using Domain.Entities;
+﻿using Application.Responses;
+using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Config;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +13,40 @@ namespace Infrastructure.Repositories
 {
     public class PostRepository : IPostRepository
     {
-        public Post CreatePost()
+        private readonly DatabaseConfig _context;
+
+        public PostRepository(DatabaseConfig context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
-        public List<Post> GetPosts()
+        public bool CreatePost(Post post)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Posts.Add(post);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-        public Post GetPost(string id)
+        public async Task<List<Post>> GetPostsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Posts.ToListAsync();
+        }
+        public async Task<Post> GetPostAsync(Guid id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(s => s.Id == id);
+            return post;
         }
 
         public Post UpdatePost(string id)
         {
             throw new NotImplementedException();
         }
-        public void DeletePost(string id)
+        public bool DeletePost(string id)
         {
             throw new NotImplementedException();
         }

@@ -49,6 +49,7 @@ namespace WebAPI
             
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -17,5 +17,11 @@
             public const string Login = Base + "/identity/login";
             public const string Register = Base + "/identity/register";
         }
+        public static class PostRoutes
+        {
+            public const string GetPostById = Base + "/posts/{postId}";
+            public const string GetPosts = Base + "/posts";
+            public const string CreatePost = Base + "/posts";
+        }
     }
 }
