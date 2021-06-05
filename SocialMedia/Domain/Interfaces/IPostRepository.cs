@@ -12,5 +12,6 @@ namespace Domain.Interfaces
         public Task<Post> GetPostAsync(Guid id);
         public Task<bool> UpdatePostAsync(Post postToUpdate);
         public Task<bool> DeletePostAsync(Guid id);
+        public Task<bool> UserOwnsPostAsync(Guid postId, string userId);
     }
 }

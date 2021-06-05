@@ -1,6 +1,7 @@
 ﻿using Application.Requests.Post;
 using Application.Responses;
 using Domain.Entities;
+using Domain.Extensions;
 using Domain.Interfaces;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -34,7 +35,8 @@ namespace WebAPI.Controllers
             var post = new Post //add auto mapper
             {
                 Id = new Guid(),
-                Name = request.Name
+                Name = request.Name,
+                UserId = HttpContext.GetUserId()
             };
             var result = _postRepository.CreatePost(post);
             if (!result)
@@ -64,11 +66,15 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.PostRoutes.UpdatePost)]
         public async Task<IActionResult> UpdatePost([FromRoute]Guid postId, [FromBody] UpdatePostRequest request)
         {
-            var post = new Post // add automapper
+            var userOwnsPost = await _postRepository.UserOwnsPostAsync(postId, HttpContext.GetUserId());
+
+            if (!userOwnsPost)
             {
-                Id = postId,
-                Name = request.Name
-            };
+                return BadRequest(new { error = " You do not own this post" });
+            }
+            var post = await _postRepository.GetPostAsync(postId);
+            post.Name = request.Name;
+            
             var updated = await _postRepository.UpdatePostAsync(post);
             if (!updated)
             {
@@ -80,6 +86,12 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.PostRoutes.DeletePost)]
         public async Task<IActionResult> DeletePost([FromRoute]Guid postId)
         {
+            var userOwnsPost = await _postRepository.UserOwnsPostAsync(postId, HttpContext.GetUserId());
+
+            if (!userOwnsPost)
+            {
+                return BadRequest(new { error = " You do not own this post" });
+            }
             var deleted = await _postRepository.DeletePostAsync(postId);
             if (!deleted)
             {

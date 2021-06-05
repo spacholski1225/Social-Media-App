@@ -39,7 +39,7 @@ namespace Infrastructure.Repositories
         public async Task<Post> GetPostAsync(Guid id)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(s => s.Id == id);
-            if(post == null)
+            if (post == null)
             {
                 return null;
             }
@@ -49,7 +49,7 @@ namespace Infrastructure.Repositories
         public async Task<bool> UpdatePostAsync(Post postToUpdate)
         {
             var exist = await GetPostAsync(postToUpdate.Id);
-            if(exist == null)
+            if (exist == null)
             {
                 return false;
             }
@@ -79,6 +79,18 @@ namespace Infrastructure.Repositories
             }
         }
 
-
+        public async Task<bool> UserOwnsPostAsync(Guid postId, string userId)
+        {
+            var post = await _context.Posts.AsNoTracking().SingleOrDefaultAsync(x => x.Id == postId);
+            if (post == null)
+            {
+                return false;
+            }
+            if(post.UserId != userId)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
