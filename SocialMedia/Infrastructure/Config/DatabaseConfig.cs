@@ -12,5 +12,6 @@ namespace Infrastructure.Config
         {
         }
         public DbSet<Post> Posts { get; set; } 
+        public DbSet<RefreshToken> RefreshTokens{ get; set; } 
     }
 }

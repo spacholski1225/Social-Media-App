@@ -30,7 +30,8 @@ namespace WebAPI.Controllers
             }
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token
+                Token = authResponse.Token,
+                RefreshToken = authResponse.RefreshToken
             });
         }
         [HttpPost]
@@ -49,7 +50,8 @@ namespace WebAPI.Controllers
                 }
                 return Ok(new AuthSuccessResponse
                 {
-                    Token = authResponse.Token
+                    Token = authResponse.Token,
+                    RefreshToken = authResponse.RefreshToken
                 });
             }
             return BadRequest(new AuthFailedResponse
@@ -57,6 +59,24 @@ namespace WebAPI.Controllers
                 Errors = new[] { "Invalid payload" }
             });
 
+        }
+        [HttpPost(ApiRoutes.IdentityRoutes.Refresh)]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var response = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
+
+            if (!response.Success)//move it to method
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
+            return Ok(new AuthSuccessResponse
+            {
+                Token = response.Token,
+                RefreshToken = response.RefreshToken
+            });
         }
     }
 }
