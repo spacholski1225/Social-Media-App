@@ -10,14 +10,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Routes;
 
 namespace WebAPI.Controllers
 {
     [ApiController]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
@@ -32,7 +31,7 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.PostRoutes.CreatePost)]
         public IActionResult CreatePost([FromBody] CreatePostRequest request)
         {
-            var post = new Post //add auto mapper
+            var post = new Post 
             {
                 Id = new Guid(),
                 Name = request.Name,
