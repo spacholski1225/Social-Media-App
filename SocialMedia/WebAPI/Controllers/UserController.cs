@@ -18,7 +18,6 @@ namespace WebAPI.Controllers
         {
             _userRepository = userRepository;
         }
-        // GET: api/<UserController>
         [HttpGet]
         [Route(ApiRoutes.UserRoutes.GetAll)]
         public OkObjectResult GetUsers()
@@ -27,10 +26,9 @@ namespace WebAPI.Controllers
             return Ok(users);
         }
 
-        // GET api/<UserController>/5
         [HttpGet]
         [Route(ApiRoutes.UserRoutes.GetByUserName)]
-        public async Task<IActionResult> GetUserByUserName(string username)
+        public async Task<IActionResult> GetUserByUserName([FromRoute] string username)
         {
             var user = await _userRepository.GetUserByUserName(username);
             if (user == null)
@@ -38,7 +36,6 @@ namespace WebAPI.Controllers
             return Ok(user);
         }
 
-        // PUT api/<UserController>/5
         [HttpPut]
         [Route(ApiRoutes.UserRoutes.UpdateUser)]
         public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
@@ -47,10 +44,9 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        // DELETE api/<UserController>/5
         [HttpDelete]
         [Route(ApiRoutes.UserRoutes.DeleteUser)]
-        public async Task<IActionResult> DeleteUser(string username)
+        public async Task<IActionResult> DeleteUser([FromRoute] string username)
         {
              await _userRepository.DeleteUserByUserName(username);
             return Ok();

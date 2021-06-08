@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(new PostResponse
                 {
-                    Errors = new[] { "Can not add new post" } // change it to something else maybe to kind of response
+                    Errors = new[] { "Cannot add a new post" } 
                 });
             }
             return Ok();
