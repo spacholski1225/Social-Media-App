@@ -26,5 +26,9 @@
             public const string UpdatePost = Base + "/posts/{postId}";
             public const string DeletePost = Base + "/posts/{postId}";
         }
+        public static class ProfileRoutes
+        {
+            public const string GetProfile = Base + "/profile/{username}";
+        }
     }
 }

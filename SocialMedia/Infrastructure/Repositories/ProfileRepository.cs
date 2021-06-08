@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Config;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -10,16 +12,16 @@ namespace Infrastructure.Repositories
 {
     public class ProfileRepository : IProfileRepository
     {
-        private readonly DatabaseConfig _context;
         private readonly AutoMapperConfig _mapper;
-        public ProfileRepository(DatabaseConfig context, AutoMapperConfig mapper)
+        private readonly IUserRepository _userRepsitory;
+        public ProfileRepository(AutoMapperConfig mapper, IUserRepository userRepsitory)
         {
-            _context = context;
             _mapper = mapper;
+            _userRepsitory = userRepsitory;
         }
-        public async Task<ProfileDto> GetUserProfileAsync(string id)
+        public async Task<ProfileDto> GetUserProfileAsync(string userName)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userRepsitory.GetUserByUserName(userName);
             if(user == null)
             {
                 return null;

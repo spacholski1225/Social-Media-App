@@ -22,6 +22,7 @@ using Infrastructure.Services;
 using Application.Filter;
 using System.IO;
 using System.Reflection;
+using Application.Interfaces;
 
 namespace WebAPI
 {
@@ -50,6 +51,7 @@ namespace WebAPI
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
 
             var tokenValidationParameters = new TokenValidationParameters
             {
