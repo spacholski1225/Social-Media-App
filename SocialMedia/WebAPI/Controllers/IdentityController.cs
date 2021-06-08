@@ -1,5 +1,6 @@
 ﻿using Application.Requests;
 using Application.Responses;
+using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -21,18 +22,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
-            if (!authResponse.Success)
-            {
-                return BadRequest(new AuthFailedResponse
-                {
-                    Errors = authResponse.Errors
-                });
-            }
-            return Ok(new AuthSuccessResponse
-            {
-                Token = authResponse.Token,
-                RefreshToken = authResponse.RefreshToken
-            });
+            return AuthResultIsSuccess(authResponse);
         }
         [HttpPost]
         [Route(ApiRoutes.IdentityRoutes.Login)]
@@ -41,18 +31,7 @@ namespace WebAPI.Controllers
             if (ModelState.IsValid)
             {
                 var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
-                if (!authResponse.Success)
-                {
-                    return BadRequest(new AuthFailedResponse
-                    {
-                        Errors = authResponse.Errors
-                    });
-                }
-                return Ok(new AuthSuccessResponse
-                {
-                    Token = authResponse.Token,
-                    RefreshToken = authResponse.RefreshToken
-                });
+                return AuthResultIsSuccess(authResponse);
             }
             return BadRequest(new AuthFailedResponse
             {
@@ -65,7 +44,11 @@ namespace WebAPI.Controllers
         {
             var response = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
 
-            if (!response.Success)//move it to method
+            return AuthResultIsSuccess(response);
+        }
+        private IActionResult AuthResultIsSuccess(AuthenticationResult response)
+        {
+            if (!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
                 {
