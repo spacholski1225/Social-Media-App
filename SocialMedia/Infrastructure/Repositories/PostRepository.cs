@@ -53,7 +53,7 @@ namespace Infrastructure.Repositories
             {
                 return false;
             }
-            exist.Name = postToUpdate.Name; // refactor it and add automapper
+            exist.Name = postToUpdate.Name; 
             try
             {
                 _context.SaveChanges();
