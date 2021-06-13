@@ -69,5 +69,18 @@ namespace SocialMedia.Test
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
+        [Fact]
+        public async Task Login_ReturnBadRequest_WhenModelIsNotValid()
+        {
+            //Arrange
+            _identityServiceMock.Setup(s => s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new AuthenticationResult { Success = false });
+            _controller.ModelState.AddModelError("e", "e");
+            //Act
+            var result = await _controller.Login(new UserLoginRequest());
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(result);
+        }
     }
 }
