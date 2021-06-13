@@ -24,15 +24,50 @@ namespace SocialMedia.Test
         }
 
         [Fact]
-        public async Task Register_ReturnSuccessResult()
+        public async Task Register_ReturnOkResult()
         {
             //Arrange
-            _identityServiceMock.Setup(s => s.RegisterAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new AuthenticationResult());
+            _identityServiceMock.Setup(s => s.RegisterAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new AuthenticationResult {Success = true });
+            
             //Act
             var result = await _controller.Register(new UserRegistrationRequest());
             //Assert
-            Assert.IsType<AuthenticationResult>(result);
+            Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(result);
+        }
+        [Fact]
+        public async Task Register_ReturnBadResult()
+        {
+            //Arrange
+            _identityServiceMock.Setup(s => s.RegisterAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(new AuthenticationResult { Success = false });
+
+            //Act
+            var result = await _controller.Register(new UserRegistrationRequest());
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(result);
+        }
+        [Fact]
+        public async Task Login_ReturnOkResult_WhenModelIsValid()
+        {
+            //Arrange
+            _identityServiceMock.Setup(s=> s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new AuthenticationResult { Success = true });
+            //Act
+            var result = await _controller.Login(new UserLoginRequest());
+            //Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+        [Fact]
+        public async Task Login_ReturnBadResult_WhenModelIsValid()
+        {
+            //Arrange
+            _identityServiceMock.Setup(s => s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(new AuthenticationResult { Success = false });
+            //Act
+            var result = await _controller.Login(new UserLoginRequest());
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
         }
     }
 }
