@@ -20,13 +20,12 @@ namespace WebAPI.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
-        private readonly AutoMapperConfig _mapper;
 
-        public PostController(IPostRepository postRepository, AutoMapperConfig mapper)
+        public PostController(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _mapper = mapper;
         }
+
         [HttpPost]
         [Route(ApiRoutes.PostRoutes.CreatePost)]
         public IActionResult CreatePost([FromBody] CreatePostRequest request)
