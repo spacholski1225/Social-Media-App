@@ -20,9 +20,13 @@ namespace WebAPI.Controllers
         }
         [HttpGet]
         [Route(ApiRoutes.UserRoutes.GetAll)]
-        public OkObjectResult GetUsers()
+        public IActionResult GetUsers()
         {
             var users = _userRepository.GetUsers();
+            if(users == null)
+            {
+                return BadRequest();
+            }
             return Ok(users);
         }
 
