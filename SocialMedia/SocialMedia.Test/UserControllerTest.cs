@@ -41,6 +41,25 @@ namespace SocialMedia.Test
             //Assert
             Assert.IsType<OkObjectResult>(result);
         }
-        
+        [Fact]
+        public async Task GetUserByUserName_ReturnNotFound_ForUserEqualNull()
+        {
+            //Arrange
+            _mockUserRepository.Setup(s => s.GetUserByUserName(It.IsAny<string>())).ReturnsAsync(() => null);
+            //Act
+            var result = await _controller.GetUserByUserName("test");
+            //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+        [Fact]
+        public async Task GetUserByUserName_ReturnUser_ForUserNotNull()
+        {
+            //Arrange
+            _mockUserRepository.Setup(s => s.GetUserByUserName(It.IsAny<string>())).ReturnsAsync(new IdentityUser());
+            //Act
+            var result = await _controller.GetUserByUserName("test");
+            //Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
     }
 }
