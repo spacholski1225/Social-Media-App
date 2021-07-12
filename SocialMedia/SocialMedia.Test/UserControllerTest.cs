@@ -61,5 +61,6 @@ namespace SocialMedia.Test
             //Assert
             Assert.IsType<OkObjectResult>(result);
         }
+        
     }
 }
