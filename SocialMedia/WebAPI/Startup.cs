@@ -45,6 +45,7 @@ namespace WebAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IFriendRepository, FriendRepository>();
 
             var tokenValidationParameters = new TokenValidationParameters
             {
