@@ -30,5 +30,9 @@
         {
             public const string GetProfile = Base + "/profile/{username}";
         }
+        public static class FriendRoutes
+        {
+            public const string AddFriend = Base + "/friend/addfriend";
+        }
     }
 }
