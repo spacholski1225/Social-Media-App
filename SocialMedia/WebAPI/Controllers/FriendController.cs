@@ -53,6 +53,28 @@ namespace WebAPI.Controllers
             return Ok();
         }
         //endpoint to remove friend from list
+        [HttpPost]
+        [Route(ApiRoutes.FriendRoutes.DeleteFriend)]
+        public async Task<IActionResult> DeleteFriendAsync([FromBody] DeleteFriendRequest request)
+        {
+            var username = userManager.GetUserId(HttpContext.User); //there should be returned userId but output value is username
+            var user = await userManager.FindByNameAsync(username);
+
+            var friend = new Friend
+            {
+                FriendId = request.FriendId,
+                UserId = user.Id
+            };
+            var result = _friendRepository.DeleteFriend(friend);
+            if (!result)
+            {
+                return BadRequest(new FriendResponse
+                {
+                    Errors = new[] { "Cannot delete this frend from list" }
+                });
+            }
+            return Ok();
+        }
         //endpoint to get friend and check his profile
         //endpoint to get all friends
     }

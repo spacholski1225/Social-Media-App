@@ -30,5 +30,20 @@ namespace Infrastructure.Repositories
                 return false;
             }
         }
+
+        public bool DeleteFriend(Friend friend)
+        {
+            var friendToRemove = _context.Friends.FirstOrDefault(x => x.FriendId == friend.FriendId && x.UserId == friend.UserId);
+            try
+            {
+                _context.Friends.Remove(friendToRemove);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

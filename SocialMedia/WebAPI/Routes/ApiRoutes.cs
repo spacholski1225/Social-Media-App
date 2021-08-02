@@ -33,6 +33,7 @@
         public static class FriendRoutes
         {
             public const string AddFriend = Base + "/friend/addfriend";
+            public const string DeleteFriend = Base + "/friend/deletefriend";
         }
     }
 }
