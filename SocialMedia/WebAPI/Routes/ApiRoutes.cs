@@ -29,11 +29,15 @@
         public static class ProfileRoutes
         {
             public const string GetProfile = Base + "/profile/{username}";
+            public const string GetFriendProfile = Base + "/profile/{friendId}";
         }
         public static class FriendRoutes
         {
             public const string AddFriend = Base + "/friend/addfriend";
             public const string DeleteFriend = Base + "/friend/deletefriend";
+            public const string GetFriend = Base + "/friend/getfriend";
+            public const string GetFriends = Base + "/friend/getfriends";
+            
         }
     }
 }

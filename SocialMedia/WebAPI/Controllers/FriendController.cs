@@ -75,7 +75,5 @@ namespace WebAPI.Controllers
             }
             return Ok();
         }
-        //endpoint to get friend and check his profile
-        //endpoint to get all friends
     }
 }

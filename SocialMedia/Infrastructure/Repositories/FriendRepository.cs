@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Config;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Infrastructure.Repositories
                 _context.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -44,6 +45,16 @@ namespace Infrastructure.Repositories
             {
                 return false;
             }
+        }
+
+        public bool IsFriend(string userId, string friendId)
+        {
+            var result = _context.Friends.FirstOrDefault(x => x.UserId == userId);
+            if (result == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
