@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
@@ -8,5 +9,6 @@ namespace Domain.Interfaces
         public bool AddFriend(Friend friend);
         public bool DeleteFriend(Friend friend);
         public bool IsFriend(string userId, string friendId);
+        public Task<Friend> FindFriendIdByUserIdAsync(string FriendId, ClaimsPrincipal user);
     }
 }

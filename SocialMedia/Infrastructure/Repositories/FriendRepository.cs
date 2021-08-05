@@ -3,9 +3,8 @@ using Domain.Interfaces;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
@@ -13,10 +12,12 @@ namespace Infrastructure.Repositories
     public class FriendRepository : IFriendRepository
     {
         private readonly DatabaseConfig _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public FriendRepository(DatabaseConfig context)
+        public FriendRepository(DatabaseConfig context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public bool AddFriend(Friend friend)
         {
@@ -55,6 +56,18 @@ namespace Infrastructure.Repositories
                 return false;
             }
             return true;
+        }
+
+        public async Task<Friend> FindFriendIdByUserIdAsync(string FriendId, ClaimsPrincipal user)
+        {
+            var username = _userManager.GetUserId(user); 
+            var userId = await _userManager.FindByNameAsync(username);
+            var potentialFriend = await _userManager.FindByIdAsync(FriendId);
+            return new Friend
+            {
+                FriendId = potentialFriend.Id,
+                UserId = userId.Id
+            };
         }
     }
 }

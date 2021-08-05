@@ -21,26 +21,17 @@ namespace WebAPI.Controllers
     public class FriendController : ControllerBase
     {
         private readonly IFriendRepository _friendRepository;
-        private readonly UserManager<IdentityUser> userManager; //stworzyc funkcje w identityservice
 
-        public FriendController(IFriendRepository friendRepository, UserManager<IdentityUser> userManager )
+        public FriendController(IFriendRepository friendRepository)
         {
             _friendRepository = friendRepository;
-            this.userManager = userManager;
         }
         //endpoint with adding to list of friends
         [HttpPost]
         [Route(ApiRoutes.FriendRoutes.AddFriend)]
         public async Task<IActionResult> AddFriendAsync([FromBody] AddFriendRequest request)
         {
-            var username = userManager.GetUserId(HttpContext.User); //there should be returned userId but output value is username
-            var userId = await userManager.FindByNameAsync(username);
-            var potentialFriend = await userManager.FindByIdAsync(request.FriendId);
-            var friend = new Friend
-            {
-                FriendId = potentialFriend.Id,
-                UserId = userId.Id
-            };
+            var friend = await _friendRepository.FindFriendIdByUserIdAsync(request.FriendId, HttpContext.User);
 
             var result = _friendRepository.AddFriend(friend);
             if (!result)
@@ -57,14 +48,8 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.FriendRoutes.DeleteFriend)]
         public async Task<IActionResult> DeleteFriendAsync([FromBody] DeleteFriendRequest request)
         {
-            var username = userManager.GetUserId(HttpContext.User); //there should be returned userId but output value is username
-            var user = await userManager.FindByNameAsync(username);
+            var friend = await _friendRepository.FindFriendIdByUserIdAsync(request.FriendId, HttpContext.User);
 
-            var friend = new Friend
-            {
-                FriendId = request.FriendId,
-                UserId = user.Id
-            };
             var result = _friendRepository.DeleteFriend(friend);
             if (!result)
             {
