@@ -20,7 +20,7 @@ namespace SocialMedia.Test
         public ProfileControllerTest()
         {
             _mockProfileRepository = new Mock<IProfileRepository>();
-            _controller = new ProfileController(_mockProfileRepository.Object);
+            //_controller = new ProfileController(_mockProfileRepository.Object);
         }
         
         [Fact]
