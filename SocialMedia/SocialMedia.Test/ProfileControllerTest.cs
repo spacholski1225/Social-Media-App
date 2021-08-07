@@ -2,10 +2,6 @@
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Controllers;
 using Xunit;
@@ -17,6 +13,7 @@ namespace SocialMedia.Test
         private readonly ProfileController _controller;
         private readonly Mock<IProfileRepository> _mockProfileRepository;
 
+        //Change after modify method in controller
         public ProfileControllerTest()
         {
             _mockProfileRepository = new Mock<IProfileRepository>();

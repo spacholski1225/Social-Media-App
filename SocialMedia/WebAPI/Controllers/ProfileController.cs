@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
     {
         private readonly IProfileRepository _profileRepository;
         private readonly IFriendRepository _friendRepository;
-        private readonly UserManager<IdentityUser> userManager; //stworzyc funkcje w identityservice
+        private readonly UserManager<IdentityUser> userManager; //to remove
 
         public ProfileController(IProfileRepository profileRepository,
             IFriendRepository friendRepository, UserManager<IdentityUser> userManager)
@@ -40,12 +40,12 @@ namespace WebAPI.Controllers
             }
             return Ok(profile);
         }
+        //TODO CHANGE THIS METHOD
         [Route(ApiRoutes.ProfileRoutes.GetFriendProfile)]
         public async Task<IActionResult> GetFriendProfile([FromBody] string friendId)
         {
             var username = userManager.GetUserId(HttpContext.User); //there should be returned userId but output value is username
             var userId = await userManager.FindByNameAsync(username);
-
             if (_friendRepository.IsFriend(userId.Id, friendId))
             {
                 var potentialFriend = await userManager.FindByIdAsync(friendId);
