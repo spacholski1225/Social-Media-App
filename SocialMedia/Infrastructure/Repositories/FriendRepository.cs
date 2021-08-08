@@ -3,6 +3,7 @@ using Domain.Interfaces;
 using Infrastructure.Config;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -68,6 +69,11 @@ namespace Infrastructure.Repositories
                 FriendId = potentialFriend.Id,
                 UserId = userId.Id
             };
+        }
+
+        public List<Friend> GetAllFriends(string userId)
+        {
+            return _context.Friends.Where(x => x.UserId == userId).ToList();
         }
     }
 }

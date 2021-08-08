@@ -1,6 +1,6 @@
 ﻿namespace Application.Requests.Friend
 {
-    public class DeleteFriendRequest
+    public class GetFriendIdRequest
     {
         public string FriendId { get; set; }
     }

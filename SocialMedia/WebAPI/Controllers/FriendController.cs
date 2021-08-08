@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         //endpoint with adding to list of friends
         [HttpPost]
         [Route(ApiRoutes.FriendRoutes.AddFriend)]
-        public async Task<IActionResult> AddFriendAsync([FromBody] AddFriendRequest request)
+        public async Task<IActionResult> AddFriendAsync([FromBody] GetFriendIdRequest request)
         {
             //add checking if friend alreade exist
             var friend = await _friendRepository.FindFriendIdByUserIdAsync(request.FriendId, HttpContext.User);
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         //endpoint to remove friend from list
         [HttpPost]
         [Route(ApiRoutes.FriendRoutes.DeleteFriend)]
-        public async Task<IActionResult> DeleteFriendAsync([FromBody] DeleteFriendRequest request)
+        public async Task<IActionResult> DeleteFriendAsync([FromBody] GetFriendIdRequest request)
         {
             var friend = await _friendRepository.FindFriendIdByUserIdAsync(request.FriendId, HttpContext.User);
 
@@ -60,6 +60,20 @@ namespace WebAPI.Controllers
                 });
             }
             return Ok();
+        }
+        [HttpGet]
+        [Route(ApiRoutes.FriendRoutes.GetListOfFriends)]
+        public IActionResult GetListOfFriends([FromBody] GetUserIdRequest request)
+        {
+            var friendsList = _friendRepository.GetAllFriends(request.UserId);
+            if(friendsList.Count == 0 || friendsList == null)
+            {
+                return BadRequest(new FriendResponse
+                {
+                    Errors = new[] { "Cannot find any friends." }
+                });
+            }
+            return Ok(friendsList);
         }
     }
 }

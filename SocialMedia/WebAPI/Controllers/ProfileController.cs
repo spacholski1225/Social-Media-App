@@ -43,8 +43,5 @@ namespace WebAPI.Controllers
                 });
             }
         }
-        
-        //endpoint to get all friends
-
     }
 }
