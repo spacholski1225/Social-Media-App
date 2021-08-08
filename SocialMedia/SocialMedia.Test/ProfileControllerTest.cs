@@ -24,7 +24,7 @@ namespace SocialMedia.Test
         public async Task GetProfile_ReturnOkResult_WhenProfileIsNotNull()
         {
             //Arrange
-            _mockProfileRepository.Setup(s => s.GetUserProfileAsync(It.IsAny<string>())).ReturnsAsync(new ProfileDto());
+            _mockProfileRepository.Setup(s => s.GetUserProfileByUsernameAsync(It.IsAny<string>())).ReturnsAsync(new ProfileDto());
             //Act
             var result = await _controller.GetProfile("test");
             //Assert
@@ -34,7 +34,7 @@ namespace SocialMedia.Test
         public async Task GetProfile_ReturnBadResult_WhenProfileIsNull()
         {
             //Arrange
-            _mockProfileRepository.Setup(s => s.GetUserProfileAsync(It.IsAny<string>())).ReturnsAsync(() => null);
+            _mockProfileRepository.Setup(s => s.GetUserProfileByUsernameAsync(It.IsAny<string>())).ReturnsAsync(() => null);
             //Act
             var result = await _controller.GetProfile("test");
             //Assert

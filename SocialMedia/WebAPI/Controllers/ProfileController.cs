@@ -17,53 +17,33 @@ namespace WebAPI.Controllers
     {
         private readonly IProfileRepository _profileRepository;
         private readonly IFriendRepository _friendRepository;
-        private readonly UserManager<IdentityUser> userManager; //to remove
-
         public ProfileController(IProfileRepository profileRepository,
             IFriendRepository friendRepository, UserManager<IdentityUser> userManager)
         {
             _profileRepository = profileRepository;
             _friendRepository = friendRepository;
-            this.userManager = userManager;
         }
-        [Route(ApiRoutes.ProfileRoutes.GetProfile)]
-        [HttpGet]
-        public async Task<IActionResult> GetProfile([FromRoute] string username)
-        {
-            var profile = await _profileRepository.GetUserProfileAsync(username);
-            if (profile == null)
-            {
-                return BadRequest(new ProfileResponse
-                {
-                    Errors = new[] { "User cannot be found" }
-                });
-            }
-            return Ok(profile);
-        }
-        //TODO CHANGE THIS METHOD
+      
         [Route(ApiRoutes.ProfileRoutes.GetFriendProfile)]
-        public async Task<IActionResult> GetFriendProfile([FromBody] string friendId)
+        [HttpGet]
+        public async Task<IActionResult> GetFriendProfile([FromRoute] string friendId)
         {
-            var username = userManager.GetUserId(HttpContext.User); //there should be returned userId but output value is username
-            var userId = await userManager.FindByNameAsync(username);
-            if (_friendRepository.IsFriend(userId.Id, friendId))
+            var friend = await _friendRepository.FindFriendIdByUserIdAsync(friendId, HttpContext.User);
+
+            if (_friendRepository.IsFriend(friend.UserId, friendId))
             {
-                var potentialFriend = await userManager.FindByIdAsync(friendId);
-                return Ok(await _profileRepository.GetUserProfileAsync(potentialFriend.UserName));
+                var friendIdentity = await _profileRepository.GetUserProfileByIdAsync(friend.FriendId);
+                return Ok(friendIdentity);
             }
             else
             {
                 return BadRequest(new ProfileResponse
                 {
-                    Errors = new[] { "User cannot be found" }
+                    Errors = new[] { "You can check only friends profiles!" }
                 });
             }
         }
-        //endpoint to get friend and check his profile
-        /* zastanowic sie w jakis sposob zrobic pobieranie informacji o danym koledze zeby przejrzec jego profil
-         * mysle ze to powinno byc w profilecontroller i tam w jakis sposob pobiera dla danego uzytkownika id szukanego frienda
-         * i wtedy te Id podaje dalej
-       */
+        
         //endpoint to get all friends
 
     }

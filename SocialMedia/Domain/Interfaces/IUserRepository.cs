@@ -8,7 +8,8 @@ namespace Domain.Interfaces
     {
         public Task UpdateUserAsync(string username, IdentityUser identityUser);
         public List<IdentityUser> GetUsers();
-        public Task<IdentityUser> GetUserByUserName(string username);
-        public Task DeleteUserByUserName(string username);
+        public Task<IdentityUser> GetUserByUserNameAsync(string username);
+        public Task DeleteUserByUserNameAsync(string username);
+        public Task<IdentityUser> GetUserByIdAsync(string id);
     }
 }

@@ -36,7 +36,7 @@ namespace Infrastructure.Repositories
         {
             return _userManager.Users.ToList();
         }
-        public async Task<IdentityUser> GetUserByUserName(string username)
+        public async Task<IdentityUser> GetUserByUserNameAsync(string username)
         {
             try
             {
@@ -49,12 +49,16 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task DeleteUserByUserName(string username)
+        public async Task DeleteUserByUserNameAsync(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
                 await _userManager.DeleteAsync(user);
         }
 
+        public async Task<IdentityUser> GetUserByIdAsync(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+        }
     }
 }

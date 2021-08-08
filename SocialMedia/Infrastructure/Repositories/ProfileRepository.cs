@@ -19,10 +19,22 @@ namespace Infrastructure.Repositories
             _mapper = mapper;
             _userRepsitory = userRepsitory;
         }
-        public async Task<ProfileDto> GetUserProfileAsync(string userName)
+
+        public async Task<ProfileDto> GetUserProfileByIdAsync(string id)
         {
-            var user = await _userRepsitory.GetUserByUserName(userName);
-            if(user == null)
+            var user = await _userRepsitory.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            var profileDto = _mapper.MapIdentityUserToProfileDto(user);
+            return profileDto;
+        }
+
+        public async Task<ProfileDto> GetUserProfileByUsernameAsync(string userName)
+        {
+            var user = await _userRepsitory.GetUserByUserNameAsync(userName);
+            if (user == null)
             {
                 return null;
             }

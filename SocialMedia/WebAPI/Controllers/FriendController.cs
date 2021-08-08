@@ -31,6 +31,7 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.FriendRoutes.AddFriend)]
         public async Task<IActionResult> AddFriendAsync([FromBody] AddFriendRequest request)
         {
+            //add checking if friend alreade exist
             var friend = await _friendRepository.FindFriendIdByUserIdAsync(request.FriendId, HttpContext.User);
 
             var result = _friendRepository.AddFriend(friend);

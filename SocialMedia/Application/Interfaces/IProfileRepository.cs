@@ -9,6 +9,7 @@ namespace Application.Interfaces
 {
     public interface IProfileRepository
     {
-        public Task<ProfileDto> GetUserProfileAsync(string id);
+        public Task<ProfileDto> GetUserProfileByUsernameAsync(string username);
+        public Task<ProfileDto> GetUserProfileByIdAsync(string id);
     }
 }

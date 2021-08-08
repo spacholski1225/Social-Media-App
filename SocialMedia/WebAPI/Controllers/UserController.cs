@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.UserRoutes.GetByUserName)]
         public async Task<IActionResult> GetUserByUserName([FromRoute] string username)
         {
-            var user = await _userRepository.GetUserByUserName(username);
+            var user = await _userRepository.GetUserByUserNameAsync(username);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.UserRoutes.DeleteUser)]
         public async Task<IActionResult> DeleteUser([FromRoute] string username)
         {
-             await _userRepository.DeleteUserByUserName(username);
+             await _userRepository.DeleteUserByUserNameAsync(username);
             return Ok();
         }
     }
