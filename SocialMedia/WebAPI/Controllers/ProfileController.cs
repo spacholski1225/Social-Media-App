@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         private readonly IProfileRepository _profileRepository;
         private readonly IFriendRepository _friendRepository;
         public ProfileController(IProfileRepository profileRepository,
-            IFriendRepository friendRepository, UserManager<IdentityUser> userManager)
+            IFriendRepository friendRepository)
         {
             _profileRepository = profileRepository;
             _friendRepository = friendRepository;

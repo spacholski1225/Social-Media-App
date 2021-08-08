@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
             return profileDto;
         }
 
-        public async Task<ProfileDto> GetUserProfileByUsernameAsync(string userName)
+        public async Task<ProfileDto> FindFriendIdByUserIdAsync(string userName)
         {
             var user = await _userRepsitory.GetUserByUserNameAsync(userName);
             if (user == null)
