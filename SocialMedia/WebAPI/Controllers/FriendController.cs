@@ -1,15 +1,10 @@
 ﻿using Application.Requests.Friend;
 using Application.Responses.Friend;
-using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.Routes;
 
@@ -39,7 +34,7 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(new FriendResponse
                 {
-                    Errors = new[] { "Cannot add a new post" }
+                    Errors = new[] { "Cannot add to friend" }
                 });
             }
             return Ok();

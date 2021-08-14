@@ -22,13 +22,21 @@ namespace Infrastructure.Repositories
         }
         public bool AddFriend(Friend friend)
         {
-            try
+            var isExist = _context.Friends.FirstOrDefault(x => x.FriendId == friend.FriendId && x.UserId == friend.UserId);
+            if (!isExist.Equals(null))
             {
-                _context.Friends.Add(friend);
-                _context.SaveChanges();
-                return true;
+                try
+                {
+                    _context.Friends.Add(friend);
+                    _context.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
             }
-            catch (Exception ex)
+            else
             {
                 return false;
             }
