@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Routes;
 
@@ -102,11 +103,14 @@ namespace WebAPI.Controllers
             }
             return Ok();
         }
-        
-       /* [HttpGet]
+
+        [HttpGet]
         [Route(ApiRoutes.PostRoutes.LatestPosts)]
-        public async Task<IActionResult> DisplayPostsFromTheLastest()
+        public async Task<List<Post>> DisplayPostsFromTheLastest()
         {
-        }*/
+            var posts = await _postRepository.GetPostsAsync();
+            var latestPosts = posts.OrderBy(x => x.Date).ToList();
+            return latestPosts;
+        }
     }
 }
