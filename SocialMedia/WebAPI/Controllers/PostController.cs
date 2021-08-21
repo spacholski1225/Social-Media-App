@@ -30,11 +30,13 @@ namespace WebAPI.Controllers
         [Route(ApiRoutes.PostRoutes.CreatePost)]
         public IActionResult CreatePost([FromBody] CreatePostRequest request)
         {
-            var post = new Post 
+            var post = new Post
             {
                 Id = new Guid(),
                 Name = request.Name,
-                UserId = HttpContext.GetUserId()
+                UserId = HttpContext.GetUserId(),
+                Date = DateTime.Now
+
             };
             var result = _postRepository.CreatePost(post);
             if (!result)
