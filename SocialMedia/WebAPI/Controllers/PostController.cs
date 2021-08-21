@@ -100,5 +100,11 @@ namespace WebAPI.Controllers
             }
             return Ok();
         }
+        
+       /* [HttpGet]
+        [Route(ApiRoutes.PostRoutes.LatestPosts)]
+        public async Task<IActionResult> DisplayPostsFromTheLastest()
+        {
+        }*/
     }
 }

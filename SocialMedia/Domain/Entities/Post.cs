@@ -11,6 +11,7 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string UserId { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; }
