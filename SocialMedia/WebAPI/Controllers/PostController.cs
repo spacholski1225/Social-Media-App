@@ -134,5 +134,11 @@ namespace WebAPI.Controllers
             }
             
         }
+        [HttpGet]
+        [Route(ApiRoutes.PostRoutes.DisplayComments)]
+        public List<Comments> DisplayPostComments([FromBody] CommentPostRequest request)
+        {
+            return _postRepository.DisplayPostComments(request.PostId);
+        }
     }
 }

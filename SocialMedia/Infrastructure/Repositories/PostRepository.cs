@@ -94,9 +94,9 @@ namespace Infrastructure.Repositories
             return true;
         }
 
-        public Task<Comments> DisplayPostComments(Guid postId)
+        public List<Comments> DisplayPostComments(Guid postId)
         {
-            throw new NotImplementedException();
+            return _context.Comments.Where(s => s.PostId == postId).ToList();
         }
 
         public bool AddCommentToPost(Comments comment)

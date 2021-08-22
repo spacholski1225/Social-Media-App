@@ -13,7 +13,7 @@ namespace Domain.Interfaces
         public Task<bool> UpdatePostAsync(Post postToUpdate);
         public Task<bool> DeletePostAsync(Guid id);
         public Task<bool> UserOwnsPostAsync(Guid postId, string userId);
-        public Task<Comments> DisplayPostComments(Guid postId);
+        public List<Comments> DisplayPostComments(Guid postId);
         public bool AddCommentToPost(Comments comment);
     }
 }

@@ -26,7 +26,8 @@
             public const string UpdatePost = Base + "/posts/{postId}";
             public const string DeletePost = Base + "/posts/{postId}";
             public const string LatestPosts = Base + "/posts/latest";
-            public const string AddComment= Base + "/posts/addcomment";
+            public const string AddComment = Base + "/posts/addcomment";
+            public const string DisplayComments = Base + "/posts/displaycomments";
         }
         public static class ProfileRoutes
         {
@@ -38,7 +39,7 @@
             public const string DeleteFriend = Base + "/friend/deletefriend";
             public const string GetFriend = Base + "/friend/getfriend";
             public const string GetListOfFriends = Base + "/friend/getfriends";
-            
+
         }
     }
 }
