@@ -139,6 +139,7 @@ namespace WebAPI.Controllers
         public List<Comments> DisplayPostComments([FromBody] CommentPostRequest request)
         {
             return _postRepository.DisplayPostComments(request.PostId);
+
         }
     }
 }
