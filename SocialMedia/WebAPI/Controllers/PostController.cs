@@ -112,5 +112,27 @@ namespace WebAPI.Controllers
             var latestPosts = posts.OrderBy(x => x.Date).ToList();
             return latestPosts;
         }
+        [HttpPost]
+        [Route(ApiRoutes.PostRoutes.AddComment)]
+        public IActionResult AddCommentToPost([FromBody] CommentPostRequest request)
+        {
+            var comment = new Comments
+            {
+                PostId = request.PostId,
+                Author = HttpContext.GetUserId(),
+                Comment = request.Comment,
+                Id = new Guid()
+            };
+            var result = _postRepository.AddCommentToPost(comment);
+            if(result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(new { error = "Cannot add your comment." });
+            }
+            
+        }
     }
 }

@@ -26,6 +26,7 @@
             public const string UpdatePost = Base + "/posts/{postId}";
             public const string DeletePost = Base + "/posts/{postId}";
             public const string LatestPosts = Base + "/posts/latest";
+            public const string AddComment= Base + "/posts/addcomment";
         }
         public static class ProfileRoutes
         {

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Config;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,25 @@ namespace Infrastructure.Repositories
                 return false;
             }
             return true;
+        }
+
+        public Task<Comments> DisplayPostComments(Guid postId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddCommentToPost(Comments comment)
+        {
+            try
+            {
+                _context.Comments.Add(comment);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
