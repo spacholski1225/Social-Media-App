@@ -14,5 +14,6 @@ namespace Infrastructure.Config
         public DbSet<Post> Posts { get; set; } 
         public DbSet<Friend> Friends { get; set; }
         public DbSet<RefreshToken> RefreshTokens{ get; set; } 
+        public DbSet<Comments> Comments { get; set; }
     }
 }

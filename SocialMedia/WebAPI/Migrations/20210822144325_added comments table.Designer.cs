@@ -4,14 +4,16 @@ using Infrastructure.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseConfig))]
-    partial class DatabaseConfigModelSnapshot : ModelSnapshot
+    [Migration("20210822144325_added comments table")]
+    partial class addedcommentstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Author")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -35,8 +37,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Author");
 
                     b.HasIndex("PostId");
 
@@ -318,10 +318,6 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("Domain.Entities.Comments", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("Author");
-
                     b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
@@ -329,8 +325,6 @@ namespace WebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Friend", b =>
