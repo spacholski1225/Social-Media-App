@@ -13,3 +13,17 @@ Api for the application that allows employees to communicate within the company,
 - Postman
 - Git
 - Sql Server Management Studio
+
+# Documentation
+## Prerequisites
+Before using Web Api, make sure that you have .net 5.0 installed on your computer.
+## Instalation
+First, download the zip or clone repository.
+```
+git clone https://github.com/spacholski1225/Social-Media-App.git
+```
+After that run visual studio and set WebAPI as startup project or run console in folder with application and run
+```
+dotnet run
+```
+Then run postman or another program for testing API and make a request.
