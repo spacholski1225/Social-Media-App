@@ -27,3 +27,9 @@ After that run visual studio and set WebAPI as startup project or run console in
 dotnet run
 ```
 Then run postman or another program for testing API and make a request.
+
+# IdentityController
+
+Method
+`public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)`
+As a parameter takes request body it means Email and Password with a standard strong password. This method creates a new user and returned Ok or BadRequest. It depends from that if the user was created successfully. If the method returned Ok result additionally it generated jwt token.
