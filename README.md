@@ -30,12 +30,39 @@ Then run postman or another program for testing API and make a request.
 
 # IdentityController
 
-Method:
 ```
 public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
 ```
-As a parameter takes request body it means Email and Password with a standard strong password. This method creates a new user and returned Ok or BadRequest. It depends from that if the user was created successfully. If the method returned Ok result additionally it generated JWT token.
+This method as a parameter takes request body it means Email and Password with a standard strong password. This method creates a new user and returned Ok or BadRequest. It depends from that if the user was created successfully. If the method returned Ok result additionally it generated JWT token.
 
-```public async Task<IActionResult> Login([FromBody] UserLoginRequest request)```
-as a parameter takes request body it means Email and Password. If credentials are correct then it generated JWT token.
+```
+public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+```
+As a parameter takes request body it means Email and Password. If credentials are correct then it generated JWT token.
 
+```
+public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+```
+As a parameter takes request JWT Token and returned refresk Token.
+
+# UserController
+
+```
+public IActionResult GetUsers()
+```
+This method returns all users if they already exist.
+
+```
+public async Task<IActionResult> GetUserByUserName([FromRoute] string username)
+```
+As a parameter takes username from the endpoint route and returns user or NotFound if a user does not exist.
+
+```
+public async Task<IActionResult> UpdateUser([FromBody] IdentityUser identityUser, string username)
+```
+As a parameter takes IdentityUser from the request body and takes username. This method updates the existing user about new data.
+
+```
+public async Task<IActionResult> DeleteUser([FromRoute] string username)
+```
+This method as a parameter takes the username of the existing user from the endpoint route and deletes it.
