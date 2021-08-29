@@ -102,3 +102,27 @@ This method adds comment to specific post. As a request paramter takes Comment i
 public List<Comments> DisplayPostComments([FromBody] CommentPostRequest request)
 ```
 This method displays all comments from a specific post. As a parameter takes Post Id.
+
+# ProfileController
+
+```
+public async Task<IActionResult> GetFriendProfile([FromRoute] string friendId)
+```
+This method display friend profile. As a parameter from route takes friendId.
+
+# FriendController
+
+```
+public async Task<IActionResult> AddFriendAsync([FromBody] GetFriendIdRequest request)
+```
+This method adds friend to user. As a parameter takes request. Body request had FriendId.
+
+```
+public async Task<IActionResult> DeleteFriendAsync([FromBody] GetFriendIdRequest request)
+```
+This method takes as a parameter request within body contains FriendId. Method deletes user from friends.
+
+```
+public IActionResult GetListOfFriends([FromBody] GetUserIdRequest request)
+```
+This method returns list friends of current user. As a parameter takes request within body contains UserId.
