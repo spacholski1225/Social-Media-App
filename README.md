@@ -66,3 +66,39 @@ As a parameter takes IdentityUser from the request body and takes username. This
 public async Task<IActionResult> DeleteUser([FromRoute] string username)
 ```
 This method as a parameter takes the username of the existing user from the endpoint route and deletes it.
+
+# PostController
+```
+public IActionResult CreatePost([FromBody] CreatePostRequest request)
+```
+As a parameter takes request from body with Name as a post content.
+
+```
+public async Task<List<Post>> GetPosts()
+```
+This method returns all posts.
+
+```
+public async Task<Post> GetPosts([FromRoute]Guid postId)
+```
+As a parameter takes post ID from the route. This method returns a specific post.
+
+```
+public async Task<IActionResult> UpdatePost([FromRoute]Guid postId, [FromBody] UpdatePostRequest request)
+```
+This method updates post. As a parameter postId takes post Id from route to update. As request takes new content from body.
+
+```
+public async Task<IActionResult> DeletePost([FromRoute]Guid postId)
+```
+As a parameter takes post ID. This method deletes a specific post.
+
+```
+public IActionResult AddCommentToPost([FromBody] CommentPostRequest request)
+```
+This method adds comment to specific post. As a request paramter takes Comment it means comment content and Post Id.
+
+```
+public List<Comments> DisplayPostComments([FromBody] CommentPostRequest request)
+```
+This method displays all comments from a specific post. As a parameter takes Post Id.
